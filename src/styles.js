@@ -23,11 +23,9 @@ const getStyles = () => ({
     // },
   },
   content:{
-    textAlign: "center"
+    textAlign: "center",
+    align:"center"
   },
-  regionCounts:{
-    color:'#FFF'
-  }
 });
 
 export default getStyles;

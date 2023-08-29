@@ -7,6 +7,10 @@ import {
   Button,
   Space,
   Checkbox,
+  Card,
+  List,
+  Col,
+  Row
 } from "antd";
 import { fetchServerList, serverListKeys } from "./api";
 import { tableColumns } from "./columns";
@@ -35,7 +39,7 @@ const App = () => {
 
   const refreshData = useCallback(async () => {
     const res = await fetchServerList();
-    console.log(res)
+    //console.log(res)
     setServerList(res.data);
     setFilteredServerList(res.data);
     const savedFilters = localStorage.getItem(LOCAL_STORAGE_KEYS.savedFilters);
@@ -43,13 +47,14 @@ const App = () => {
       const newFilters = { ...JSON.parse(savedFilters) };
       applyFilters(res.data, newFilters);
     }
+
     var result = []
     for(const key in res.regionCounts){
-      result.push({name:key,code:res.regionCounts[key]})
+      result.push({region:key,counts:res.regionCounts[key]})
     }
     setregionCounts(result) 
   
-    console.log(result,regionCounts)
+    //console.log(result,regionCounts)
   }, []);
 
   useEffect(() => {
@@ -160,11 +165,15 @@ const App = () => {
             onClearFilters={handleClearFilters}
             filters={filters}
           />
-          {regionCounts.map((item)=>{
-            return <div style={styles.regionCounts}>
-             {item.name} - {item.code}
-            </div>
-          })}
+            <List
+              grid={{ gutter: 16, column: 4 }}
+              dataSource={regionCounts}
+              renderItem={(item) => (
+                <List.Item>
+                  <Card title={item.region}>{item.counts}</Card>
+                </List.Item>
+              )}
+            />
           <Table
             dataSource={filteredServerList}
             columns={tableColumns}
