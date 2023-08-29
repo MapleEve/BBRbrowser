@@ -67,7 +67,7 @@ export async function fetchServerList() {
     server.key = `${server.Name}_${server.Region}_${server.Map}`;
 
     // bool转换器
-    server.IsOfficial = server.Name.match(/\d{3}\-\w{2}\-\d{2}/) ? "官方服" : "社区服";
+    server.IsOfficial = server.Name.match(/\w{1,3}\-\w{1,2}\-\w{1,3}/) ? "官方服" : "社区服";
     server.HasPassword = server.HasPassword ? "密码" : "无";
 
     // 服务器状态展示
