@@ -24,6 +24,9 @@ const getStyles = () => ({
   },
   content:{
     textAlign: "center"
+  },
+  regionCounts:{
+    color:'#FFF'
   }
 });
 

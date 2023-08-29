@@ -133,6 +133,10 @@ export async function fetchServerList() {
         regionCounts[server.Region] = totalPlayers;
     }
   });
+  const res = {
+    data,
+    regionCounts
+  }
 
-  return data;
+  return res;
 }
