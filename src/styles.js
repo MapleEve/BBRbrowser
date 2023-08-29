@@ -4,7 +4,7 @@ const getStyles = () => ({
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0 16px",
-    backgroundColor: "#86B7FC",
+    backgroundColor: "#15417E",
     color: "#fff",
     borderRadius: "4px 4px 0 0",
   },
