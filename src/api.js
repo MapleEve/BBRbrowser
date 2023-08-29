@@ -57,8 +57,9 @@ export async function fetchServerList() {
     brazil: "🇧🇷",
     europe: "🇪🇺",
     japan: "🇯🇵",
-    asia: "🏁",
-    developer:"🚩",
+    africa:"🇿🇦",
+    asia: "🌏",
+    developer:"🧑🏻‍💻",
   };
   const regionCounts = {};
 
