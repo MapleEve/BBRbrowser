@@ -51,8 +51,8 @@ const App = () => {
       refreshData(); // Initial refresh
       const intervalId = setInterval(() => {
         refreshData();
-      }, 3000); // 5 seconds
-
+      }, 3000); // 3 seconds
+ 
       return () => clearInterval(intervalId);
     }
   }, [autoRefresh, refreshData]);
