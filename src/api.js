@@ -1,20 +1,20 @@
 import { startCase } from "lodash";
 
 export const serverListKeys = {
-  name: "服务器名",
-  map: "地图",
-  mapSize: "地图大小",
-  gamemode: "游戏模式",
-  region: "区服",
-  players: "玩家数",
-  queuePlayers: "队列人数",
-  maxPlayers: "最大人数",
-  hz: "Tickrate",
-  dayNight: "日夜",
-  isOfficial: "官方服",
-  hasPassword: "密码",
-  antiCheat: "反作弊",
-  build: "版本号",
+  name: "Name",
+  map: "Map",
+  mapSize: "MapSize",
+  gamemode: "Gamemode",
+  region: "Region",
+  players: "Players",
+  queuePlayers: "QueuePlayers",
+  maxPlayers: "MaxPlayers",
+  hz: "Hz",
+  dayNight: "DayNight",
+  isOfficial: "IsOfficial",
+  hasPassword: "HasPassword",
+  antiCheat: "AntiCheat",
+  build: "Build",
   // added keys
   key: "key",
   playersStatus: "PlayersStatus",
@@ -31,10 +31,25 @@ export async function fetchServerList() {
     CONQ: "征服",
     RUSH: "突破",
     FRONTLINE: "前线",
-    CashRun: "Cash Run",
+    CashRun: "运钞",
     INFCONQ: "步兵征服",
-    TDM: "Team Deathmatch",
-    GunGameFFA: "Gun Game Free For All",
+    TDM: "团队死斗",
+    GunGameFFA: "个人军备竞赛",
+    GunGameTeam: "团队军备竞赛",
+    FFA:"个人死斗",
+    ELI:"歼灭",
+    CatchGame:"躲猫猫",
+    SuicideRush:"自杀式突破",
+    Infected:"感染",
+    CaptureTheFlag:"夺旗",
+    VoxelFortify:"方块防御",
+  };
+  const mapsizeMapping = {
+    Tiny: "16",
+    Small: "32",
+    Medium: "64",
+    Big: "128",
+    Ultra: "254",
   };
   const flagMapping = {
     america: "🇺🇸",
@@ -42,16 +57,16 @@ export async function fetchServerList() {
     brazil: "🇧🇷",
     europe: "🇪🇺",
     japan: "🇯🇵",
-    singapore: "🇸🇬",
-    vietnam: "🇻🇳",
+    asia: "🏁",
+    developer:"🚩",
   };
 
   data.forEach((server) => {
     server.key = `${server.Name}_${server.Region}_${server.Map}`;
 
     // Manipulate data to make it easier to display
-    server.IsOfficial = server.IsOfficial ? "Official" : "Community";
-    server.HasPassword = server.HasPassword ? "Yes" : "No";
+    server.IsOfficial = server.IsOfficial ? "官方服" : "社区服";
+    server.HasPassword = server.HasPassword ? "密码" : "无";
 
     // New column for server status (players, queue, max players)
     server.PlayersStatus =
@@ -61,9 +76,15 @@ export async function fetchServerList() {
 
     // Data for server status color
     if (server.Players + server.QueuePlayers === server.MaxPlayers) {
+      server.statusColor = "magenta";
+    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.85) {
       server.statusColor = "red";
-    } else if (server.Players + server.QueuePlayers >= 0) {
+    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.70) {
+      server.statusColor = "orange";
+    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.50) {
       server.statusColor = "green";
+    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.25) {
+      server.statusColor = "blue";
     } else {
       server.statusColor = "";
     }
@@ -72,6 +93,12 @@ export async function fetchServerList() {
     Object.keys(gamemodeMapping).forEach((key) => {
       if (String(server.Gamemode).toLowerCase() === key.toLowerCase()) {
         server.Gamemode = gamemodeMapping[key];
+      }
+    });
+    // Mapsize mapping
+    Object.keys(mapsizeMapping).forEach((key) => {
+      if (String(server.mapSize).toLowerCase() === key.toLowerCase()) {
+        server.mapSize = mapsizeMapping[key];
       }
     });
 
@@ -87,13 +114,13 @@ export async function fetchServerList() {
 
     // Day/Night mapping
     if (server.DayNight.toLowerCase() === "day") {
-      server.DayNight = "☀️ " + server.DayNight;
+      server.DayNight = "☀️ 白天";
     } else if (server.DayNight.toLowerCase() === "night") {
-      server.DayNight = "🌙 " + server.DayNight;
+      server.DayNight = "🌙 夜晚";
     }
 
     // HasPassword mapping
-    if (server.HasPassword.toLowerCase() === "yes") {
+    if (server.HasPassword.toLowerCase() === "密码") {
       server.HasPassword = "🔒 " + server.HasPassword;
     }
   });

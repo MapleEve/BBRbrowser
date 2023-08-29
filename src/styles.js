@@ -22,6 +22,9 @@ const getStyles = () => ({
     //   border: "none",
     // },
   },
+  content:{
+    textAlign: "center"
+  }
 });
 
 export default getStyles;

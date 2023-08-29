@@ -51,7 +51,7 @@ const App = () => {
       refreshData(); // Initial refresh
       const intervalId = setInterval(() => {
         refreshData();
-      }, 5000); // 5 seconds
+      }, 3000); // 5 seconds
 
       return () => clearInterval(intervalId);
     }
@@ -126,18 +126,18 @@ const App = () => {
       <Layout>
         <Header style={styles.header}>
           <div style={styles.headerLeft}>
-            <h1>像素战地服务器浏览器</h1>
+            <h1>兰博像素战地服务器列表监控</h1>
           </div>
 
           <Space style={styles.headerRight}>
             <Button type="primary" onClick={refreshData}>
-              Refresh
+              立即刷新
             </Button>
             <Checkbox
               checked={autoRefresh}
               onChange={(event) => handleSetAutoRefresh(event)}
             >
-              <div style={{ color: "white" }}>自动刷新</div>
+              <div style={{ color: "white" }}>3秒自动刷新</div>
             </Checkbox>
             <ThemeToggle themeMode={themeMode} toggleTheme={toggleTheme} />
           </Space>
@@ -156,7 +156,7 @@ const App = () => {
             columns={tableColumns}
             rowKey="key"
             pagination={{
-              defaultPageSize: 10,
+              defaultPageSize: 100,
               hideOnSinglePage: true,
               position: ["bottomCenter", "topCenter"],
             }}

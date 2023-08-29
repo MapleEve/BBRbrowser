@@ -4,13 +4,13 @@ import { startCase } from "lodash";
 
 export const tableColumns = [
   {
-    title: startCase(serverListKeys.name),
+    title: "名称",
     dataIndex: serverListKeys.name,
     key: serverListKeys.name,
     sorter: (a, b) => a.Name.localeCompare(b.Name),
   },
   {
-    title: startCase(serverListKeys.region),
+    title: "区服",
     dataIndex: serverListKeys.region,
     key: serverListKeys.region,
     sorter: (a, b) => a.Region.localeCompare(b.Region),
@@ -20,13 +20,13 @@ export const tableColumns = [
     },
   },
   {
-    title: startCase(serverListKeys.gamemode),
+    title: "模式",
     dataIndex: serverListKeys.gamemode,
     key: serverListKeys.gamemode,
     sorter: (a, b) => a.Gamemode.localeCompare(b.Gamemode),
   },
   {
-    title: startCase(serverListKeys.playersStatus),
+    title: "玩家数",
     dataIndex: serverListKeys.playersStatus,
     key: serverListKeys.playersStatus,
     sorter: (a, b) => a.Players - b.Players,
@@ -36,13 +36,13 @@ export const tableColumns = [
     },
   },
   {
-    title: startCase(serverListKeys.map),
+    title: "地图",
     dataIndex: serverListKeys.map,
     key: serverListKeys.map,
     sorter: (a, b) => a.Map.localeCompare(b.Map),
   },
   {
-    title: startCase(serverListKeys.mapSize),
+    title: "容量",
     dataIndex: serverListKeys.mapSize,
     key: serverListKeys.mapSize,
     sorter: (a, b) => a.MapSize.localeCompare(b.MapSize),
@@ -69,18 +69,18 @@ export const tableColumns = [
     },
   },
   {
-    title: "Day/Night",
+    title: "日/夜",
     dataIndex: serverListKeys.dayNight,
     key: serverListKeys.dayNight,
     sorter: (a, b) => a.DayNight.localeCompare(b.DayNight),
     render: (_, record) => {
       const { DayNight } = record;
-      const dayFlag = DayNight.toLowerCase().includes("day");
+      const dayFlag = DayNight.toLowerCase().includes("白天");
       return <Tag color={dayFlag ? "orange" : "blue"}>{DayNight}</Tag>;
     },
   },
   {
-    title: startCase(serverListKeys.hz),
+    title: "刷新率",
     dataIndex: serverListKeys.hz,
     key: serverListKeys.hz,
     sorter: (a, b) => a.Hz - b.Hz,
@@ -88,42 +88,44 @@ export const tableColumns = [
       const { Hz } = record;
       const HzNum = Number(Hz);
       let color = ""; // default for 60
-      if (HzNum < 60) color = "red";
-      if (HzNum > 60 && HzNum <= 144) color = "blue";
-      if (HzNum > 144) color = "green";
+      if (HzNum < 60) color = "magenta";
+      if (HzNum >= 60 && HzNum < 120) color = "";
+      if (HzNum >= 120 && HzNum < 144) color = "blue";
+      if (HzNum >= 144 && HzNum <= 200) color = "orange";
+      if (HzNum > 200) color = "green";
       return <Tag color={color}>{HzNum}</Tag>;
     },
   },
   {
-    title: "Official",
+    title: "官服",
     dataIndex: serverListKeys.isOfficial,
     key: serverListKeys.isOfficial,
     sorter: (a, b) => a.IsOfficial.localeCompare(b.IsOfficial),
     render: (_, record) => {
       const { IsOfficial } = record;
-      const officialFlag = IsOfficial.toLowerCase() === "official";
+      const officialFlag = IsOfficial.toLowerCase().includes("官方服");
       return <Tag color={officialFlag ? "green" : "blue"}>{IsOfficial}</Tag>;
     },
   },
   {
-    title: "Password",
+    title: "密码",
     dataIndex: serverListKeys.hasPassword,
     key: serverListKeys.hasPassword,
     sorter: (a, b) => a.HasPassword.localeCompare(b.HasPassword),
     render: (_, record) => {
       const { HasPassword } = record;
-      const hasPassFlag = HasPassword.toLowerCase().includes("yes");
+      const hasPassFlag = HasPassword.toLowerCase().includes("密码");
       return <Tag color={hasPassFlag ? "red" : "green"}>{HasPassword}</Tag>;
     },
   },
   {
-    title: startCase(serverListKeys.antiCheat),
+    title: "反作弊",
     dataIndex: serverListKeys.antiCheat,
     key: serverListKeys.antiCheat,
     sorter: (a, b) => a.AntiCheat.localeCompare(b.AntiCheat),
   },
   {
-    title: startCase(serverListKeys.build),
+    title: "版本号",
     dataIndex: serverListKeys.build,
     key: serverListKeys.build,
     sorter: (a, b) => a.Build.localeCompare(b.Build),

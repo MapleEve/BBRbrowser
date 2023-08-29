@@ -32,7 +32,7 @@ const ServerFilters = ({
           <InputSearchFilter
             key={field}
             field={field}
-            placeholder={`Search ${startCase(field)}`}
+            placeholder={`搜索${startCase(field)}`}
             onChange={onFilterChange}
             // currentVal={currentVal} // don't save currentVal for input search
           />
@@ -43,7 +43,7 @@ const ServerFilters = ({
         <SelectFilter
           key={field}
           field={field}
-          placeholder={`Select ${startCase(field)}`}
+          placeholder={`选择${startCase(field)}`}
           options={uniqueValuesByField(field)}
           onChange={onFilterChange}
           currentVal={currentVal}
