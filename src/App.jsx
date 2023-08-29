@@ -9,8 +9,6 @@ import {
   Checkbox,
   Card,
   List,
-  Col,
-  Row
 } from "antd";
 import { fetchServerList, serverListKeys } from "./api";
 import { tableColumns } from "./columns";
@@ -165,15 +163,15 @@ const App = () => {
             onClearFilters={handleClearFilters}
             filters={filters}
           />
-            <List
-              grid={{ gutter: 16, column: 4 }}
-              dataSource={regionCounts}
-              renderItem={(item) => (
-                <List.Item>
-                  <Card title={item.region}>{item.counts}</Card>
-                </List.Item>
-              )}
-            />
+          <List
+            grid={{ gutter: 16, column: 4 }}
+            dataSource={regionCounts}
+            renderItem={(item) => (
+              <List.Item>
+                <Card title={item.region} headStyle ={{fontSize: 24, textAlign:"center"}} bodyStyle={{ fontSize: 18, textAlign:"center" }}>{item.counts}</Card>
+              </List.Item>
+            )}
+          />
           <Table
             dataSource={filteredServerList}
             columns={tableColumns}

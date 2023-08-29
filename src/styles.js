@@ -22,10 +22,6 @@ const getStyles = () => ({
     //   border: "none",
     // },
   },
-  content:{
-    textAlign: "center",
-    align:"center"
-  },
 });
 
 export default getStyles;
