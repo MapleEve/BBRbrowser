@@ -68,7 +68,7 @@ export async function fetchServerList() {
 
     // bool转换器
     server.IsOfficial = server.Name.match(/\w{1,3}\-\w{1,2}\-\w{1,3}/) ? "官方服" : "社区服";
-    server.HasPassword = server.HasPassword ? "密码" : "无";
+    server.HasPassword = server.HasPassword ? "私密" : "开放";
 
     // 服务器状态展示
     server.PlayersStatus =
@@ -122,7 +122,7 @@ export async function fetchServerList() {
     }
 
     // 有密码的替换值
-    if (server.HasPassword.toLowerCase() === "密码") {
+    if (server.HasPassword === "私密") {
       server.HasPassword = "🔒 " + server.HasPassword;
     }
 
