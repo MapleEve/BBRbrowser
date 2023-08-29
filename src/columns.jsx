@@ -104,7 +104,7 @@ export const tableColumns = [
     },
   },
   {
-    title: "官服",
+    title: "类型",
     dataIndex: serverListKeys.isOfficial,
     key: serverListKeys.isOfficial,
     align:"center",
@@ -116,14 +116,14 @@ export const tableColumns = [
     },
   },
   {
-    title: "密码",
+    title: "私密性",
     dataIndex: serverListKeys.hasPassword,
     key: serverListKeys.hasPassword,
     align:"center",
     sorter: (a, b) => a.HasPassword.localeCompare(b.HasPassword),
     render: (_, record) => {
       const { HasPassword } = record;
-      const hasPassFlag = HasPassword.toLowerCase().includes("密码");
+      const hasPassFlag = HasPassword.toLowerCase().includes("私密");
       return <Tag color={hasPassFlag ? "red" : "green"}>{HasPassword}</Tag>;
     },
   },

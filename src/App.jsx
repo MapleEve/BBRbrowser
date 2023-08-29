@@ -16,6 +16,7 @@ import ServerFilters from "./components/ServerFilters";
 import ThemeToggle from "./components/ThemeToggle";
 import getStyles from "./styles";
 import { LOCAL_STORAGE_KEYS } from "./constants";
+import zhCN from 'antd/locale/zh_CN';
 
 const { Header, Content } = Layout;
 const { defaultAlgorithm, darkAlgorithm } = theme;
@@ -34,6 +35,9 @@ const App = () => {
   const styles = getStyles(themeMode);
 
   const [regionCounts, setregionCounts] = useState([]);
+
+  // 筛选器总数据展示
+  const allFilteredServers = () => "列表中有：" + filteredServerList.length + " 服务器";
 
   const refreshData = useCallback(async () => {
     const res = await fetchServerList();
@@ -132,6 +136,7 @@ const App = () => {
 
   return (
     <ConfigProvider
+      locale={zhCN}
       theme={{
         algorithm: themeMode === "dark" ? darkAlgorithm : defaultAlgorithm,
       }}
@@ -177,7 +182,10 @@ const App = () => {
             columns={tableColumns}
             rowKey="key"
             pagination={{
+              total: {allFilteredServers},
+              showTotal: ((total) => `总共有 ${total} 组服务器数据`),
               defaultPageSize: 100,
+              pageSizeOptions:[100,200,300,500],
               hideOnSinglePage: true,
               position: ["bottomCenter", "topCenter"],
             }}
