@@ -61,7 +61,9 @@ export async function fetchServerList() {
     asia: "🌏",
     developer:"🧑🏻‍💻",
   };
-  const regionCounts = {};
+
+  // 初始化列表
+  const regionData  = {};
 
   data.forEach((server) => {
     server.key = `${server.Name}_${server.Region}_${server.Map}`;
@@ -122,21 +124,26 @@ export async function fetchServerList() {
     }
 
     // 有密码的替换值
-    if (server.HasPassword === "私密") {
+    if (server.HasPassword.toLowerCase() === "私密") {
       server.HasPassword = "🔒 " + server.HasPassword;
     }
 
-    // 计算区服内玩家的总数
-    const totalPlayers = server.Players + server.QueuePlayers;
-    if (regionCounts[server.Region]) {
-        regionCounts[server.Region] += totalPlayers;
-    } else {
-        regionCounts[server.Region] = totalPlayers;
+    // 计算区服内各种数据的总数
+    const calculateSlots = server.MaxPlayers - server.QueuePlayers - server.Players;
+    if (!regionData[server.Region]) {
+      regionData[server.Region] = {
+        regionPlayers : server.Players,
+        regionQueuePlayers : server.QueuePlayers,
+        regionSlots : calculateSlots,
+      };
     }
+    regionData[server.Region].regionPlayers += server.Players;
+    regionData[server.Region].regionQueuePlayers += server.QueuePlayers;
+    regionData[server.Region].regionSlots += calculateSlots;
   });
   const res = {
     data,
-    regionCounts
+    regionData,
   }
 
   return res;

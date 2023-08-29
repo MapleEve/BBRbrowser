@@ -8,7 +8,8 @@ import {
   Space,
   Checkbox,
   Card,
-  List,
+  List, 
+  Tag
 } from "antd";
 import { fetchServerList, serverListKeys } from "./api";
 import { tableColumns } from "./columns";
@@ -34,14 +35,13 @@ const App = () => {
   const [resetFilterKey, setResetFilterKey] = useState(0); // State for resetting ServerFilters
   const styles = getStyles(themeMode);
 
-  const [regionCounts, setregionCounts] = useState([]);
+  const [regionData, regionCounts] = useState([]);
 
   // 筛选器总数据展示
   const allFilteredServers = () => "列表中有：" + filteredServerList.length + " 服务器";
 
   const refreshData = useCallback(async () => {
     const res = await fetchServerList();
-    //console.log(res)
     setServerList(res.data);
     setFilteredServerList(res.data);
     const savedFilters = localStorage.getItem(LOCAL_STORAGE_KEYS.savedFilters);
@@ -50,13 +50,18 @@ const App = () => {
       applyFilters(res.data, newFilters);
     }
 
-    var result = []
-    for(const key in res.regionCounts){
-      result.push({region:key,counts:res.regionCounts[key]})
+    var regionResult = []
+    for(const region in res.regionData){
+      const regionObj = {
+        region,
+        ...res.regionData[region]
+      };
+      regionResult.push(regionObj);
     }
-    setregionCounts(result) 
+    regionCounts(regionResult) 
+
+    //console.log(regionResult)
   
-    //console.log(result,regionCounts)
   }, []);
 
   useEffect(() => {
@@ -170,10 +175,14 @@ const App = () => {
           />
           <List
             grid={{ gutter: 16, column: 4 }}
-            dataSource={regionCounts}
+            dataSource={regionData}
             renderItem={(item) => (
               <List.Item>
-                <Card title={item.region} headStyle ={{fontSize: 24, textAlign:"center"}} bodyStyle={{ fontSize: 18, textAlign:"center" }}>{item.counts}</Card>
+                <Card title={item.region} headStyle ={{fontSize: 24, textAlign:"center"}} bodyStyle={{ fontSize: 18, textAlign:"center" }}>
+                  <p>游戏中:<Tag color="green">{item.regionPlayers}</Tag></p>
+                  <p>队列中:{item.regionQueuePlayers}</p>
+                  <p>空位:{item.regionSlots}</p>
+                </Card>
               </List.Item>
             )}
           />
@@ -186,7 +195,6 @@ const App = () => {
               showTotal: ((total) => `总共有 ${total} 组服务器数据`),
               defaultPageSize: 100,
               pageSizeOptions:[100,200,300,500],
-              hideOnSinglePage: true,
               position: ["bottomCenter", "topCenter"],
             }}
             scroll={{
