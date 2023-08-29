@@ -60,21 +60,22 @@ export async function fetchServerList() {
     asia: "🏁",
     developer:"🚩",
   };
+  const regionCounts = {};
 
   data.forEach((server) => {
     server.key = `${server.Name}_${server.Region}_${server.Map}`;
 
-    // Manipulate data to make it easier to display
+    // bool转换器
     server.IsOfficial = server.IsOfficial ? "官方服" : "社区服";
     server.HasPassword = server.HasPassword ? "密码" : "无";
 
-    // New column for server status (players, queue, max players)
+    // 服务器状态展示
     server.PlayersStatus =
       server.QueuePlayers > 0
         ? `${server.Players}[+${server.QueuePlayers}]/${server.MaxPlayers}`
         : `${server.Players}/${server.MaxPlayers}`;
 
-    // Data for server status color
+    // 服务器数据颜色渲染判断
     if (server.Players + server.QueuePlayers === server.MaxPlayers) {
       server.statusColor = "magenta";
     } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.85) {
@@ -89,39 +90,47 @@ export async function fetchServerList() {
       server.statusColor = "";
     }
 
-    // Gamemode mapping
+    // 游戏模式转换
     Object.keys(gamemodeMapping).forEach((key) => {
       if (String(server.Gamemode).toLowerCase() === key.toLowerCase()) {
         server.Gamemode = gamemodeMapping[key];
       }
     });
-    // Mapsize mapping
+    // 地图大小转换
     Object.keys(mapsizeMapping).forEach((key) => {
       if (String(server.mapSize).toLowerCase() === key.toLowerCase()) {
         server.mapSize = mapsizeMapping[key];
       }
     });
 
-    // Map name formatting
+    // 调整地图名称 TODO 地图名称换行加中文mapping
     server.Map = startCase(server.Map);
 
-    // Flag mapping
+    // 服务器旗帜替换值
     Object.keys(flagMapping).forEach((key) => {
       if (String(server.Region).toLowerCase().includes(key)) {
         server.Region = flagMapping[key] + " " + startCase(server.Region);
       }
     });
 
-    // Day/Night mapping
+    // 日夜替换值
     if (server.DayNight.toLowerCase() === "day") {
       server.DayNight = "☀️ 白天";
     } else if (server.DayNight.toLowerCase() === "night") {
       server.DayNight = "🌙 夜晚";
     }
 
-    // HasPassword mapping
+    // 有密码的替换值
     if (server.HasPassword.toLowerCase() === "密码") {
       server.HasPassword = "🔒 " + server.HasPassword;
+    }
+
+    // 计算区服内玩家的总数
+    const totalPlayers = server.Players + server.QueuePlayers;
+    if (regionCounts[server.Region]) {
+        regionCounts[server.Region] += totalPlayers;
+    } else {
+        regionCounts[server.Region] = totalPlayers;
     }
   });
 
