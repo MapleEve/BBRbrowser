@@ -135,7 +135,7 @@ export async function fetchServerList() {
       server.HasPassword = "🔒 " + server.HasPassword;
     }
 
-    if (server.IsOfficial.toLowerCase() === "官方服" && server.HasPassword.toLowerCase() === "开放"){
+    if (server.IsOfficial.toLowerCase() === "官方服"){
       server.OfficialPlayers = server.Players;
       server.OfficialQueuePlayers = server.QueuePlayers;
       server.OfficialSlots = server.MaxPlayers - server.QueuePlayers - server.Players;
@@ -143,7 +143,7 @@ export async function fetchServerList() {
       server.CommunityQueuePlayers = 0;
       server.CommunitySlots = 0;
     }
-    if (server.IsOfficial.toLowerCase() === "社区服" && server.HasPassword.toLowerCase() === "开放"){
+    if (server.IsOfficial.toLowerCase() === "社区服"){
       server.OfficialPlayers = 0;
       server.OfficialQueuePlayers = 0;
       server.OfficialSlots = 0;

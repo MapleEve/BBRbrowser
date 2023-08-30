@@ -20,8 +20,18 @@ const ServerFilters = ({
       serverListKeys.players,
       serverListKeys.queuePlayers,
       serverListKeys.playersStatus,
+      serverListKeys.hz,
+      serverListKeys.hasPassword,
+      serverListKeys.antiCheat,
+      serverListKeys.maxPlayers,
       serverListKeys.key,
       serverListKeys.statusColor,
+      serverListKeys.communityPlayers,
+      serverListKeys.communityQueuePlayers,
+      serverListKeys.communitySlots,
+      serverListKeys.officialPlayers,
+      serverListKeys.officialQueuePlayers,
+      serverListKeys.officialSlots,
     ];
 
     return filterFields.map((field) => {

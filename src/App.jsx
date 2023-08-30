@@ -45,7 +45,7 @@ const App = () => {
     setServerList(res.data);
     setFilteredServerList(res.data);
 
-    //console.log(res.regionData)
+    //console.log(res.data)
 
     const savedFilters = localStorage.getItem(LOCAL_STORAGE_KEYS.savedFilters);
     if (savedFilters) {
