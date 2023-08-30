@@ -122,8 +122,8 @@ export const tableColumns = [
     sorter: (a, b) => a.HasPassword.localeCompare(b.HasPassword),
     render: (_, record) => {
       const { HasPassword } = record;
-      const hasPassFlag = HasPassword.toLowerCase().includes("私密");
-      return <Tag color={hasPassFlag ? "red" : "green"}>{HasPassword}</Tag>;
+      const hasPassFlag = HasPassword.toLowerCase().includes("开放");
+      return <Tag color={hasPassFlag ? "green" : "red"}>{HasPassword}</Tag>;
     },
   },
   {
