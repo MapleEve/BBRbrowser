@@ -1,6 +1,5 @@
 import { Tag } from "antd";
 import { serverListKeys } from "./api";
-import { startCase } from "lodash";
 
 export const tableColumns = [
   {
@@ -112,7 +111,7 @@ export const tableColumns = [
     render: (_, record) => {
       const { IsOfficial } = record;
       const officialFlag = IsOfficial.toLowerCase().includes("官方服");
-      return <Tag color={officialFlag ? "green" : "blue"}>{IsOfficial}</Tag>;
+      return <Tag color={officialFlag ? "cyan" : "gold"}>{IsOfficial}</Tag>;
     },
   },
   {

@@ -44,6 +44,9 @@ const App = () => {
     const res = await fetchServerList();
     setServerList(res.data);
     setFilteredServerList(res.data);
+
+    //console.log(res.regionData)
+
     const savedFilters = localStorage.getItem(LOCAL_STORAGE_KEYS.savedFilters);
     if (savedFilters) {
       const newFilters = { ...JSON.parse(savedFilters) };
@@ -179,9 +182,9 @@ const App = () => {
             renderItem={(item) => (
               <List.Item>
                 <Card title={item.region} headStyle ={{fontSize: 24, textAlign:"center"}} bodyStyle={{ fontSize: 18, textAlign:"center" }}>
-                  <p>游戏中:<Tag color="green">{item.regionPlayers}</Tag></p>
-                  <p>队列中:{item.regionQueuePlayers}</p>
-                  <p>空位:{item.regionSlots}</p>
+                  <p>🎲<Tag color="cyan">{item.officialPlayers}</Tag><Tag color="gold">{item.communityPlayers}</Tag></p>
+                  <p>🧑🏻‍🤝‍🧑🏻<Tag color="cyan">{item.officialQueuePlayers}</Tag><Tag color="gold">{item.communityQueuePlayers}</Tag></p>
+                  <p>🈳<Tag color="cyan">{item.officialSlots}</Tag><Tag color="gold">{item.communitySlots}</Tag></p>
                 </Card>
               </List.Item>
             )}
