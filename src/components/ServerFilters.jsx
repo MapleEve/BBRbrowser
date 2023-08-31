@@ -20,7 +20,6 @@ const ServerFilters = ({
       serverListKeys.players,
       serverListKeys.queuePlayers,
       serverListKeys.playersStatus,
-      serverListKeys.hz,
       serverListKeys.hasPassword,
       serverListKeys.antiCheat,
       serverListKeys.maxPlayers,
@@ -32,6 +31,9 @@ const ServerFilters = ({
       serverListKeys.officialPlayers,
       serverListKeys.officialQueuePlayers,
       serverListKeys.officialSlots,
+      serverListKeys.communityPassPlayers,
+      serverListKeys.communityPassSlots,
+
     ];
 
     return filterFields.map((field) => {
@@ -64,7 +66,7 @@ const ServerFilters = ({
 
   const uniqueValuesByField = (field) => {
     if (!serverList || serverList.length === 0) {
-      return []; // Return an empty array if serverList is undefined, null, or empty
+      return []; // 处理空值和未定义情况
     }
     return Array.from(new Set(serverList.map((server) => server[field]))).sort(
       function (a, b) {
@@ -119,7 +121,7 @@ const SelectFilter = ({
     <Select
       style={{ width: 200, marginRight: 16, marginBottom: 8 }}
       placeholder={placeholder}
-      mode="multiple" // Enable multiple selection
+      mode="multiple" // 多选
       allowClear
       onChange={handleSelectChange}
       defaultValue={defaultValue}

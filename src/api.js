@@ -25,7 +25,8 @@ export const serverListKeys = {
   communityPlayers : "CommunityPlayers",
   communityQueuePlayers : "CommunityQueuePlayers",
   communitySlots : "CommunitySlots",
-
+  communityPassPlayers : "CommunityPassPlayers",
+  communityPassSlots : "CommunityPassSlots",
 };
 
 export async function fetchServerList() {
@@ -136,20 +137,41 @@ export async function fetchServerList() {
     }
 
     if (server.IsOfficial.toLowerCase() === "官方服"){
-      server.OfficialPlayers = server.Players;
-      server.OfficialQueuePlayers = server.QueuePlayers;
-      server.OfficialSlots = server.MaxPlayers - server.QueuePlayers - server.Players;
-      server.CommunityPlayers = 0;
-      server.CommunityQueuePlayers = 0;
-      server.CommunitySlots = 0;
+        server.OfficialPlayers = server.Players;
+        server.OfficialQueuePlayers = server.QueuePlayers;
+        server.OfficialSlots = server.MaxPlayers - server.QueuePlayers - server.Players;
+        server.CommunityPlayers = 0;
+        server.CommunityQueuePlayers = 0;
+        server.CommunitySlots = 0;
+        server.CommunityPassPlayers = 0;
+        server.CommunityPassSlots = 0;
     }
-    if (server.IsOfficial.toLowerCase() === "社区服"){
-      server.OfficialPlayers = 0;
-      server.OfficialQueuePlayers = 0;
-      server.OfficialSlots = 0;
-      server.CommunityPlayers = server.Players;
-      server.CommunityQueuePlayers = server.QueuePlayers;
-      server.CommunitySlots = server.MaxPlayers - server.QueuePlayers - server.Players;
+      
+      
+    if (server.IsOfficial.toLowerCase() === "社区服")
+    {
+      if(server.HasPassword.toLowerCase() == "开放"){
+        server.OfficialPlayers = 0;
+        server.OfficialQueuePlayers = 0;
+        server.OfficialSlots = 0;
+        server.CommunityPlayers = server.Players;
+        server.CommunityQueuePlayers = server.QueuePlayers;
+        server.CommunitySlots = server.MaxPlayers - server.QueuePlayers - server.Players;
+        server.CommunityPassPlayers = 0;
+        server.CommunityPassSlots = 0;
+      }
+      else
+      {
+        server.OfficialPlayers = 0;
+        server.OfficialQueuePlayers = 0;
+        server.OfficialSlots = 0;
+        server.CommunityPlayers = 0;
+        server.CommunityQueuePlayers = server.QueuePlayers;
+        server.CommunitySlots = 0;
+        server.CommunityPassPlayers = server.Players;
+        server.CommunityPassSlots = server.MaxPlayers - server.QueuePlayers - server.Players;
+      }
+
     }
 
     // 计算区服内各种数据的总数 
@@ -161,6 +183,8 @@ export async function fetchServerList() {
         communityPlayers : 0,
         communityQueuePlayers : 0,
         communitySlots : 0,
+        communityPassPlayers : 0,
+        communityPassSlots : 0,
       };
     }
     regionData[server.Region].officialPlayers += server.OfficialPlayers;
@@ -169,6 +193,8 @@ export async function fetchServerList() {
     regionData[server.Region].communityPlayers += server.CommunityPlayers;
     regionData[server.Region].communityQueuePlayers += server.CommunityQueuePlayers;
     regionData[server.Region].communitySlots += server.CommunitySlots;
+    regionData[server.Region].communityPassPlayers += server.CommunityPassPlayers;
+    regionData[server.Region].communityPassSlots += server.CommunityPassSlots;
 
   });
   const res = {
