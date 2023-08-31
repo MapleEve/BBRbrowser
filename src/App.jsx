@@ -50,8 +50,6 @@ const App = () => {
     setServerList(res.data);
     setFilteredServerList(res.data);
 
-    //console.log(res.data)
-
     const savedFilters = localStorage.getItem(LOCAL_STORAGE_KEYS.savedFilters);
     if (savedFilters) {
       const newFilters = JSON.parse(savedFilters);
@@ -67,8 +65,6 @@ const App = () => {
       regionResult.push(regionObj);
     }
     regionCounts(regionResult);
-
-    //console.log(regionResult)
   }, []);
 
   useEffect(() => {
@@ -110,18 +106,29 @@ const App = () => {
   const applyFilters = (serverList, newFilters) => {
     setFilters(newFilters);
 
-    //console.log(newFilters);
-
     const filteredData = serverList.filter((server) => {
       return Object.entries(newFilters).every(([filterKey, filterValues]) => {
         if (!filterValues || filterValues.length === 0) return true; // 过滤器是空的就跳过
+
         const serverValue = String(server[filterKey]).toLowerCase();
+
         if (!Array.isArray(filterValues)) {
           return serverValue.includes(String(filterValues).toLowerCase());
         }
-        return filterValues.some((filterValue) =>
-          serverValue.includes(String(filterValue).toLowerCase())
-        );
+        if (
+          String(filterKey).toLowerCase() === "gamemode" ||
+          String(filterKey).toLowerCase() === "build" ||
+          String(filterKey).toLowerCase() === "map" ||
+          String(filterKey).toLowerCase() === "mapsize" ||
+          String(filterKey).toLowerCase() === "hz"
+        ) {
+          return filterValues.some(
+            (filterValues) => serverValue === String(filterValues).toLowerCase()
+          );
+        } else
+          return filterValues.some((filterValues) =>
+            serverValue.includes(String(filterValues).toLowerCase())
+          );
       });
     });
     setFilteredServerList(filteredData);
