@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
 import {
   Table,
   ConfigProvider,
@@ -8,12 +8,12 @@ import {
   Button,
   Space,
   Checkbox,
-  Col, 
-  Row, 
+  Col,
+  Row,
   Statistic,
   Card,
-  List, 
-  Tag
+  List,
+  Tag,
 } from "antd";
 import { fetchServerList, serverListKeys } from "./api";
 import { tableColumns } from "./columns";
@@ -21,7 +21,7 @@ import ServerFilters from "./components/ServerFilters";
 import ThemeToggle from "./components/ThemeToggle";
 import getStyles from "./styles";
 import { LOCAL_STORAGE_KEYS } from "./constants";
-import zhCN from 'antd/locale/zh_CN';
+import zhCN from "antd/locale/zh_CN";
 
 const { Header, Content } = Layout;
 const { defaultAlgorithm, darkAlgorithm } = theme;
@@ -42,7 +42,8 @@ const App = () => {
   const [regionData, regionCounts] = useState([]);
 
   // 筛选器总数据展示
-  const allFilteredServers = () => "列表中有：" + filteredServerList.length + " 服务器";
+  const allFilteredServers = () =>
+    "列表中有：" + filteredServerList.length + " 服务器";
 
   const refreshData = useCallback(async () => {
     const res = await fetchServerList();
@@ -57,18 +58,17 @@ const App = () => {
       applyFilters(res.data, newFilters);
     }
 
-    var regionResult = []
-    for(const region in res.regionData){
+    var regionResult = [];
+    for (const region in res.regionData) {
       const regionObj = {
         region,
-        ...res.regionData[region]
+        ...res.regionData[region],
       };
       regionResult.push(regionObj);
     }
-    regionCounts(regionResult) 
+    regionCounts(regionResult);
 
     //console.log(regionResult)
-  
   }, []);
 
   useEffect(() => {
@@ -81,13 +81,13 @@ const App = () => {
       const intervalId = setInterval(() => {
         refreshData();
       }, 3000); // 3 seconds
- 
+
       return () => clearInterval(intervalId);
     }
   }, [autoRefresh, refreshData]);
 
   useEffect(() => {
-    // Save filters to local storage
+    // 本地存储字符串过滤器
     if (Object.keys(filters).length === 0) {
       return;
     }
@@ -112,7 +112,7 @@ const App = () => {
     setFilters(newFilters);
     const filteredData = serverList.filter((server) => {
       return Object.entries(newFilters).every(([filterKey, filterValues]) => {
-        if (!filterValues || filterValues.length === 0) return true; // Skip if filter is empty
+        if (!filterValues || filterValues.length === 0) return true; // 过滤器是空的就跳过
         const serverValue = String(server[filterKey]).toLowerCase();
         if (!Array.isArray(filterValues)) {
           return serverValue.includes(String(filterValues).toLowerCase());
@@ -142,15 +142,18 @@ const App = () => {
     setThemeMode(newThemeMode);
     localStorage.setItem("themeMode", newThemeMode);
   };
-  
+
   // 人数计数器初始化
-  const formatter = (value) => <CountUp 
-        end={value}
-        preserveValue="true"
-        valueStyle={{
-          fontSize: 12,
-        }}
-        separator="," />;
+  const formatter = (value) => (
+    <CountUp
+      end={value}
+      preserveValue="true"
+      valueStyle={{
+        fontSize: 12,
+      }}
+      separator=","
+    />
+  );
 
   document.body.style.backgroundColor =
     themeMode === "dark" ? "black" : "white";
@@ -160,8 +163,7 @@ const App = () => {
       locale={zhCN}
       theme={{
         algorithm: themeMode === "dark" ? darkAlgorithm : defaultAlgorithm,
-      }}
-    >
+      }}>
       <Layout>
         <Header style={styles.header}>
           <div style={styles.headerLeft}>
@@ -174,8 +176,7 @@ const App = () => {
             </Button>
             <Checkbox
               checked={autoRefresh}
-              onChange={(event) => handleSetAutoRefresh(event)}
-            >
+              onChange={(event) => handleSetAutoRefresh(event)}>
               <div style={{ color: "white" }}>3秒自动刷新</div>
             </Checkbox>
             <ThemeToggle themeMode={themeMode} toggleTheme={toggleTheme} />
@@ -194,69 +195,69 @@ const App = () => {
             dataSource={regionData}
             renderItem={(item) => (
               <List.Item>
-                <Card title={item.region} 
-                    headStyle ={{fontSize: 20, textAlign:"center"}} 
-                    bodyStyle={{ textAlign:"center" }}
-                    >
+                <Card
+                  title={item.region}
+                  headStyle={{ fontSize: 20, textAlign: "center" }}
+                  bodyStyle={{ textAlign: "center" }}>
                   <Row gutter={16}>
                     <Col span={8}>
-                      <Statistic 
-                      title={<Tag color={"cyan"}>游戏中</Tag>}
-                      value={item.officialPlayers} 
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"cyan"}>游戏中</Tag>}
+                        value={item.officialPlayers}
+                        formatter={formatter}
                       />
                     </Col>
                     <Col span={8}>
-                      <Statistic 
-                      title={<Tag color={"cyan"}>排队</Tag>}
-                      value={item.officialQueuePlayers}  
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"cyan"}>排队</Tag>}
+                        value={item.officialQueuePlayers}
+                        formatter={formatter}
                       />
                     </Col>
                     <Col span={8}>
-                      <Statistic 
-                      title={<Tag color={"cyan"}>空位</Tag>}
-                      value={item.officialSlots}  
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"cyan"}>空位</Tag>}
+                        value={item.officialSlots}
+                        formatter={formatter}
                       />
                     </Col>
                   </Row>
                   <Row gutter={16}>
                     <Col span={8}>
-                      <Statistic 
-                      title={<Tag color={"gold"}>游戏中</Tag>}
-                      value={item.communityPlayers} 
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"gold"}>游戏中</Tag>}
+                        value={item.communityPlayers}
+                        formatter={formatter}
                       />
                     </Col>
                     <Col span={8}>
-                      <Statistic 
-                      title={<Tag color={"gold"}>排队</Tag>}
-                      value={item.communityQueuePlayers}  
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"gold"}>排队</Tag>}
+                        value={item.communityQueuePlayers}
+                        formatter={formatter}
                       />
                     </Col>
                     <Col span={8}>
-                      <Statistic 
-                      title={<Tag color={"gold"}>空位</Tag>}
-                      value={item.communitySlots}  
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"gold"}>空位</Tag>}
+                        value={item.communitySlots}
+                        formatter={formatter}
                       />
                     </Col>
                   </Row>
                   <Row gutter={16}>
                     <Col span={12}>
-                      <Statistic 
-                      title={<Tag color={"red"}>🔒游戏中</Tag>}
-                      value={item.communityPassPlayers} 
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"red"}>🔒游戏中</Tag>}
+                        value={item.communityPassPlayers}
+                        formatter={formatter}
                       />
                     </Col>
                     <Col span={12}>
-                      <Statistic 
-                      title={<Tag color={"red"}>🔒空位</Tag>}
-                      value={item.communityPassSlots}  
-                      formatter={formatter} 
+                      <Statistic
+                        title={<Tag color={"red"}>🔒空位</Tag>}
+                        value={item.communityPassSlots}
+                        formatter={formatter}
                       />
                     </Col>
                   </Row>
@@ -269,10 +270,10 @@ const App = () => {
             columns={tableColumns}
             rowKey="key"
             pagination={{
-              total: {allFilteredServers},
-              showTotal: ((total) => `总共有 ${total} 组服务器数据`),
+              total: { allFilteredServers },
+              showTotal: (total) => `总共有 ${total} 组服务器数据`,
               defaultPageSize: 100,
-              pageSizeOptions:[100,200,300,500],
+              pageSizeOptions: [100, 200, 300, 500],
               position: ["bottomCenter", "topCenter"],
             }}
             scroll={{

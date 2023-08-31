@@ -33,7 +33,6 @@ const ServerFilters = ({
       serverListKeys.officialSlots,
       serverListKeys.communityPassPlayers,
       serverListKeys.communityPassSlots,
-
     ];
 
     return filterFields.map((field) => {
@@ -124,8 +123,7 @@ const SelectFilter = ({
       mode="multiple" // 多选
       allowClear
       onChange={handleSelectChange}
-      defaultValue={defaultValue}
-    >
+      defaultValue={defaultValue}>
       {options.map((option) => (
         <Option key={option} value={option}>
           {option}

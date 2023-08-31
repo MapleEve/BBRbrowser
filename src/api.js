@@ -19,14 +19,14 @@ export const serverListKeys = {
   key: "key",
   playersStatus: "PlayersStatus",
   statusColor: "statusColor",
-  officialPlayers : "OfficialPlayers",
-  officialQueuePlayers : "OfficialQueuePlayers",
-  officialSlots : "OfficialSlots",
-  communityPlayers : "CommunityPlayers",
-  communityQueuePlayers : "CommunityQueuePlayers",
-  communitySlots : "CommunitySlots",
-  communityPassPlayers : "CommunityPassPlayers",
-  communityPassSlots : "CommunityPassSlots",
+  officialPlayers: "OfficialPlayers",
+  officialQueuePlayers: "OfficialQueuePlayers",
+  officialSlots: "OfficialSlots",
+  communityPlayers: "CommunityPlayers",
+  communityQueuePlayers: "CommunityQueuePlayers",
+  communitySlots: "CommunitySlots",
+  communityPassPlayers: "CommunityPassPlayers",
+  communityPassSlots: "CommunityPassSlots",
 };
 
 export async function fetchServerList() {
@@ -44,13 +44,13 @@ export async function fetchServerList() {
     TDM: "团队死斗",
     GunGameFFA: "个人军备竞赛",
     GunGameTeam: "团队军备竞赛",
-    FFA:"个人死斗",
-    ELI:"歼灭",
-    CatchGame:"躲猫猫",
-    SuicideRush:"自杀式突破",
-    Infected:"感染",
-    CaptureTheFlag:"夺旗",
-    VoxelFortify:"方块防御",
+    FFA: "个人死斗",
+    ELI: "歼灭",
+    CatchGame: "躲猫猫",
+    SuicideRush: "自杀式突破",
+    Infected: "感染",
+    CaptureTheFlag: "夺旗",
+    VoxelFortify: "方块防御",
   };
   const mapsizeMapping = {
     Tiny: "16",
@@ -65,19 +65,21 @@ export async function fetchServerList() {
     brazil: "🇧🇷",
     europe: "🇪🇺",
     japan: "🇯🇵",
-    africa:"🇿🇦",
+    africa: "🇿🇦",
     asia: "🌏",
-    developer:"🧑🏻‍💻",
+    developer: "🧑🏻‍💻",
   };
 
   // 初始化列表
-  const regionData  = {};
+  const regionData = {};
 
   data.forEach((server) => {
     server.key = `${server.Name}_${server.Region}_${server.Map}`;
 
     // bool转换器
-    server.IsOfficial = server.Name.match(/\w{1,3}-\w{1,2}-\w{1,3}/) ? "官方服" : "社区服";
+    server.IsOfficial = server.Name.match(/\w{1,3}-\w{1,2}-\w{1,3}/)
+      ? "官方服"
+      : "社区服";
     server.HasPassword = server.HasPassword ? "私密" : "开放";
 
     // 服务器状态展示
@@ -89,13 +91,25 @@ export async function fetchServerList() {
     // 服务器数据颜色渲染判断
     if (server.Players + server.QueuePlayers === server.MaxPlayers) {
       server.statusColor = "magenta";
-    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.85) {
+    } else if (
+      server.Players + server.QueuePlayers >=
+      server.MaxPlayers * 0.85
+    ) {
       server.statusColor = "red";
-    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.70) {
+    } else if (
+      server.Players + server.QueuePlayers >=
+      server.MaxPlayers * 0.7
+    ) {
       server.statusColor = "orange";
-    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.50) {
+    } else if (
+      server.Players + server.QueuePlayers >=
+      server.MaxPlayers * 0.5
+    ) {
       server.statusColor = "green";
-    } else if (server.Players + server.QueuePlayers >= server.MaxPlayers * 0.25) {
+    } else if (
+      server.Players + server.QueuePlayers >=
+      server.MaxPlayers * 0.25
+    ) {
       server.statusColor = "blue";
     } else {
       server.statusColor = "";
@@ -136,32 +150,30 @@ export async function fetchServerList() {
       server.HasPassword = "🔒 " + server.HasPassword;
     }
 
-    if (server.IsOfficial.toLowerCase() === "官方服"){
-        server.OfficialPlayers = server.Players;
-        server.OfficialQueuePlayers = server.QueuePlayers;
-        server.OfficialSlots = server.MaxPlayers - server.QueuePlayers - server.Players;
-        server.CommunityPlayers = 0;
-        server.CommunityQueuePlayers = 0;
-        server.CommunitySlots = 0;
-        server.CommunityPassPlayers = 0;
-        server.CommunityPassSlots = 0;
+    if (server.IsOfficial.toLowerCase() === "官方服") {
+      server.OfficialPlayers = server.Players;
+      server.OfficialQueuePlayers = server.QueuePlayers;
+      server.OfficialSlots =
+        server.MaxPlayers - server.QueuePlayers - server.Players;
+      server.CommunityPlayers = 0;
+      server.CommunityQueuePlayers = 0;
+      server.CommunitySlots = 0;
+      server.CommunityPassPlayers = 0;
+      server.CommunityPassSlots = 0;
     }
-      
-      
-    if (server.IsOfficial.toLowerCase() === "社区服")
-    {
-      if(server.HasPassword.toLowerCase() == "开放"){
+
+    if (server.IsOfficial.toLowerCase() === "社区服") {
+      if (server.HasPassword.toLowerCase() == "开放") {
         server.OfficialPlayers = 0;
         server.OfficialQueuePlayers = 0;
         server.OfficialSlots = 0;
         server.CommunityPlayers = server.Players;
         server.CommunityQueuePlayers = server.QueuePlayers;
-        server.CommunitySlots = server.MaxPlayers - server.QueuePlayers - server.Players;
+        server.CommunitySlots =
+          server.MaxPlayers - server.QueuePlayers - server.Players;
         server.CommunityPassPlayers = 0;
         server.CommunityPassSlots = 0;
-      }
-      else
-      {
+      } else {
         server.OfficialPlayers = 0;
         server.OfficialQueuePlayers = 0;
         server.OfficialSlots = 0;
@@ -169,38 +181,40 @@ export async function fetchServerList() {
         server.CommunityQueuePlayers = server.QueuePlayers;
         server.CommunitySlots = 0;
         server.CommunityPassPlayers = server.Players;
-        server.CommunityPassSlots = server.MaxPlayers - server.QueuePlayers - server.Players;
+        server.CommunityPassSlots =
+          server.MaxPlayers - server.QueuePlayers - server.Players;
       }
-
     }
 
-    // 计算区服内各种数据的总数 
+    // 计算区服内各种数据的总数
     if (!regionData[server.Region]) {
       regionData[server.Region] = {
-        officialPlayers : 0,
-        officialQueuePlayers : 0,
-        officialSlots : 0,
-        communityPlayers : 0,
-        communityQueuePlayers : 0,
-        communitySlots : 0,
-        communityPassPlayers : 0,
-        communityPassSlots : 0,
+        officialPlayers: 0,
+        officialQueuePlayers: 0,
+        officialSlots: 0,
+        communityPlayers: 0,
+        communityQueuePlayers: 0,
+        communitySlots: 0,
+        communityPassPlayers: 0,
+        communityPassSlots: 0,
       };
     }
     regionData[server.Region].officialPlayers += server.OfficialPlayers;
-    regionData[server.Region].officialQueuePlayers += server.OfficialQueuePlayers;
+    regionData[server.Region].officialQueuePlayers +=
+      server.OfficialQueuePlayers;
     regionData[server.Region].officialSlots += server.OfficialSlots;
     regionData[server.Region].communityPlayers += server.CommunityPlayers;
-    regionData[server.Region].communityQueuePlayers += server.CommunityQueuePlayers;
+    regionData[server.Region].communityQueuePlayers +=
+      server.CommunityQueuePlayers;
     regionData[server.Region].communitySlots += server.CommunitySlots;
-    regionData[server.Region].communityPassPlayers += server.CommunityPassPlayers;
+    regionData[server.Region].communityPassPlayers +=
+      server.CommunityPassPlayers;
     regionData[server.Region].communityPassSlots += server.CommunityPassSlots;
-
   });
   const res = {
     data,
-    regionData
-  }
+    regionData,
+  };
 
   return res;
 }
