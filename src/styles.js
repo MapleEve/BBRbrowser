@@ -11,13 +11,13 @@ const getStyles = () => ({
   headerLeft: {
     h1: {
       margin: "0",
-      fontSize: "24px",
+      fontSize: "20px",
     },
   },
   headerRight: {
     // button: {
     //   color: "#fff",
-    //   // Update with your desired button text color
+    //   按钮样式自定义
     //   backgroundColor: "transparent",
     //   border: "none",
     // },

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import CountUp from 'react-countup';
 import {
   Table,
   ConfigProvider,
@@ -7,6 +8,9 @@ import {
   Button,
   Space,
   Checkbox,
+  Col, 
+  Row, 
+  Statistic,
   Card,
   List, 
   Tag
@@ -138,6 +142,15 @@ const App = () => {
     setThemeMode(newThemeMode);
     localStorage.setItem("themeMode", newThemeMode);
   };
+  
+  // 人数计数器初始化
+  const formatter = (value) => <CountUp 
+        end={value}
+        preserveValue="true"
+        valueStyle={{
+          fontSize: 12,
+        }}
+        separator="," />;
 
   document.body.style.backgroundColor =
     themeMode === "dark" ? "black" : "white";
@@ -177,14 +190,76 @@ const App = () => {
             filters={filters}
           />
           <List
-            grid={{ gutter: 16, column: 4 }}
+            grid={{ gutter: 16, column: 6 }}
             dataSource={regionData}
             renderItem={(item) => (
               <List.Item>
-                <Card title={item.region} headStyle ={{fontSize: 24, textAlign:"center"}} bodyStyle={{ fontSize: 18, textAlign:"center" }}>
-                  <p>🎲<Tag color="cyan">{item.officialPlayers}</Tag><Tag color="gold">{item.communityPlayers}</Tag></p>
-                  <p>🧑🏻‍🤝‍🧑🏻<Tag color="cyan">{item.officialQueuePlayers}</Tag><Tag color="gold">{item.communityQueuePlayers}</Tag></p>
-                  <p>🈳<Tag color="cyan">{item.officialSlots}</Tag><Tag color="gold">{item.communitySlots}</Tag></p>
+                <Card title={item.region} 
+                    headStyle ={{fontSize: 20, textAlign:"center"}} 
+                    bodyStyle={{ textAlign:"center" }}
+                    >
+                  <Row gutter={16}>
+                    <Col span={8}>
+                      <Statistic 
+                      title={<Tag color={"cyan"}>游戏中</Tag>}
+                      value={item.officialPlayers} 
+                      formatter={formatter} 
+                      />
+                    </Col>
+                    <Col span={8}>
+                      <Statistic 
+                      title={<Tag color={"cyan"}>排队</Tag>}
+                      value={item.officialQueuePlayers}  
+                      formatter={formatter} 
+                      />
+                    </Col>
+                    <Col span={8}>
+                      <Statistic 
+                      title={<Tag color={"cyan"}>空位</Tag>}
+                      value={item.officialSlots}  
+                      formatter={formatter} 
+                      />
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={8}>
+                      <Statistic 
+                      title={<Tag color={"gold"}>游戏中</Tag>}
+                      value={item.communityPlayers} 
+                      formatter={formatter} 
+                      />
+                    </Col>
+                    <Col span={8}>
+                      <Statistic 
+                      title={<Tag color={"gold"}>排队</Tag>}
+                      value={item.communityQueuePlayers}  
+                      formatter={formatter} 
+                      />
+                    </Col>
+                    <Col span={8}>
+                      <Statistic 
+                      title={<Tag color={"gold"}>空位</Tag>}
+                      value={item.communitySlots}  
+                      formatter={formatter} 
+                      />
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      <Statistic 
+                      title={<Tag color={"red"}>🔒游戏中</Tag>}
+                      value={item.communityPassPlayers} 
+                      formatter={formatter} 
+                      />
+                    </Col>
+                    <Col span={12}>
+                      <Statistic 
+                      title={<Tag color={"red"}>🔒空位</Tag>}
+                      value={item.communityPassSlots}  
+                      formatter={formatter} 
+                      />
+                    </Col>
+                  </Row>
                 </Card>
               </List.Item>
             )}
