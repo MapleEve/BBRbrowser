@@ -45,7 +45,6 @@ const ServerFilters = ({
             field={field}
             placeholder={`搜索${startCase(field)}`}
             onChange={onFilterChange}
-            // currentVal={currentVal} // don't save currentVal for input search
           />
         );
       }
@@ -97,6 +96,7 @@ const InputSearchFilter = ({ field, placeholder, onChange }) => {
       style={{ width: 200, marginRight: 16 }}
       placeholder={placeholder}
       onChange={handleInputChange}
+      allowClear
     />
   );
 };

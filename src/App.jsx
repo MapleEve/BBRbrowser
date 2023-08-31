@@ -54,7 +54,7 @@ const App = () => {
 
     const savedFilters = localStorage.getItem(LOCAL_STORAGE_KEYS.savedFilters);
     if (savedFilters) {
-      const newFilters = { ...JSON.parse(savedFilters) };
+      const newFilters = JSON.parse(savedFilters);
       applyFilters(res.data, newFilters);
     }
 
@@ -91,8 +91,7 @@ const App = () => {
     if (Object.keys(filters).length === 0) {
       return;
     }
-    // eslint-disable-next-line no-unused-vars
-    const { [serverListKeys.name]: _, ...filterToSave } = filters;
+    const { ...filterToSave } = filters;
     if (Object.keys(filterToSave).length === 0) {
       return;
     }
@@ -110,6 +109,9 @@ const App = () => {
 
   const applyFilters = (serverList, newFilters) => {
     setFilters(newFilters);
+
+    //console.log(newFilters);
+
     const filteredData = serverList.filter((server) => {
       return Object.entries(newFilters).every(([filterKey, filterValues]) => {
         if (!filterValues || filterValues.length === 0) return true; // 过滤器是空的就跳过
