@@ -57,12 +57,15 @@ const App = () => {
     }
 
     var regionResult = [];
+
     for (const region in res.regionData) {
-      const regionObj = {
-        region,
-        ...res.regionData[region],
-      };
-      regionResult.push(regionObj);
+      if (!region.includes("Africa")) {
+        const regionObj = {
+          region,
+          ...res.regionData[region],
+        };
+        regionResult.push(regionObj);
+      }
     }
     regionCounts(regionResult);
   }, []);
