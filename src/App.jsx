@@ -40,6 +40,7 @@ const App = () => {
   const styles = getStyles(themeMode);
 
   const [regionData, regionCounts] = useState([]);
+  const [ranmboData, ramboCounts] = useState([]);
 
   // 筛选器总数据展示
   const allFilteredServers = () =>
@@ -58,6 +59,7 @@ const App = () => {
 
     var regionResult = [];
 
+    // 写入区服统计数据
     for (const region in res.regionData) {
       if (!region.includes("Africa")) {
         const regionObj = {
@@ -106,6 +108,7 @@ const App = () => {
     setAutoRefresh(value);
   };
 
+  // 过滤器功能组
   const applyFilters = (serverList, newFilters) => {
     setFilters(newFilters);
 

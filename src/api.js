@@ -27,6 +27,7 @@ export const serverListKeys = {
   communitySlots: "CommunitySlots",
   communityPassPlayers: "CommunityPassPlayers",
   communityPassSlots: "CommunityPassSlots",
+  isRambo: "IsRambo",
 };
 
 export async function fetchServerList() {
